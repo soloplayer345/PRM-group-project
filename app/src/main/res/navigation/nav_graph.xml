@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.recipeapp.ui.home.HomeFragment"
+        android:label="@string/title_home" />
+
+    <fragment
+        android:id="@+id/allProductFragment"
+        android:name="com.example.recipeapp.ui.product.all_product.AllProductFragment"
+        android:label="@string/title_all_products" />
+
+    <fragment
+        android:id="@+id/categoryProductFragment"
+        android:name="com.example.recipeapp.ui.product.category_product.CategoryProductFragment"
+        android:label="@string/title_category_products">
+        <argument
+            android:name="cateId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/findNameProductFragment"
+        android:name="com.example.recipeapp.ui.product.find_name_product.FindNameProductFragment"
+        android:label="@string/title_find_name">
+        <argument
+            android:name="proname"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favouriteRecipeFragment"
+        android:name="com.example.recipeapp.ui.favouriteRecipe.FavouriteRecipeFragment"
+        android:label="@string/title_favourite" />
+
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="com.example.recipeapp.ui.recipe.RecipeDetailFragment"
+        android:label="@string/title_recipe_detail">
+        <argument
+            android:name="itemId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="com.example.recipeapp.ui.shoppingList.ShoppingListFragment"
+        android:label="@string/title_shopping_list" />
+
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.example.recipeapp.ui.schedule.ScheduleFragment"
+        android:label="@string/title_schedule" />
+
+    <fragment
+        android:id="@+id/findForScheduleFragment"
+        android:name="com.example.recipeapp.ui.schedule.findingForSchedule.FindForScheduleFragment"
+        android:label="@string/title_find_schedule" />
+
+    <fragment
+        android:id="@+id/recipePersonFragment"
+        android:name="com.example.recipeapp.ui.recipe_person.RecipePersonFragment"
+        android:label="@string/title_recipe_person" />
+
+    <fragment
+        android:id="@+id/recipeDetailPersonFragment"
+        android:name="com.example.recipeapp.ui.recipe_person.recipe_detail.RecipeDetailPersonFragment"
+        android:label="@string/title_recipe_detail_person">
+        <argument
+            android:name="itemId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addRecipeFragment"
+        android:name="com.example.recipeapp.ui.recipe_person.add_recipe.AddRecipeFragment"
+        android:label="@string/title_add_recipe" />
+
+    <fragment
+        android:id="@+id/updateRecipeFragment"
+        android:name="com.example.recipeapp.ui.recipe_person.update_recipe.UpdateRecipeFragment"
+        android:label="@string/title_update_recipe">
+        <argument
+            android:name="itemId"
+            app:argType="integer" />
+    </fragment>
+</navigation>
