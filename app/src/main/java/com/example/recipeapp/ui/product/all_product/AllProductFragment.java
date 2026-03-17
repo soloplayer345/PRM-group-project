@@ -41,7 +41,8 @@ public class AllProductFragment extends Fragment {
         });
         binding.rvProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvProducts.setAdapter(adapter);
-        adapter.submitList(new Products().getProductList());
+        binding.rvProducts.setHasFixedSize(true);
+        adapter.submitList(Products.getInstance().getProductList());
         binding.tvEmptyState.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 

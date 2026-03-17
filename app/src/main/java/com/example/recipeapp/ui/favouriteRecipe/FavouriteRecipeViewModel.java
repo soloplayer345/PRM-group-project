@@ -19,12 +19,12 @@ public class FavouriteRecipeViewModel extends BaseRecipeAndroidViewModel {
 
     private final LiveData<List<Favourite>> favouriteList;
     private final List<Category> updatedCategories;
-    private final Products products = new Products();
+    private final Products products = Products.getInstance();
 
     public FavouriteRecipeViewModel(@NonNull Application application) {
         super(application);
         favouriteList = container.getFavouriteRepository().selectFavourite();
-        List<Category> categories = new ArrayList<>(new Categories().getCategoryList());
+        List<Category> categories = new ArrayList<>(Categories.getInstance().getCategoryList());
         updatedCategories = new ArrayList<>();
         updatedCategories.add(new Category(-1, "Tất cả"));
         updatedCategories.addAll(categories);

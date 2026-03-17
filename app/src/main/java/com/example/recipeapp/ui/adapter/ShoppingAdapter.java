@@ -22,7 +22,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.Shoppi
 
     private final List<Shopping> items = new ArrayList<>();
     private final OnShoppingCheckedListener listener;
-    private final Products products = new Products();
+    private final Products products = Products.getInstance();
 
     public ShoppingAdapter(OnShoppingCheckedListener listener) {
         this.listener = listener;

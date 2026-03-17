@@ -45,7 +45,8 @@ public class FindNameProductFragment extends Fragment {
         });
         binding.rvFindProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvFindProducts.setAdapter(adapter);
-        adapter.submitList(new Products().getProductsByName(viewModel.getKeyproName()));
+        binding.rvFindProducts.setHasFixedSize(true);
+        adapter.submitList(Products.getInstance().getProductsByName(viewModel.getKeyproName()));
         binding.tvEmptyState.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 

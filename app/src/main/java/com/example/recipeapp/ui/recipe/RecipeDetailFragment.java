@@ -42,7 +42,7 @@ public class RecipeDetailFragment extends Fragment {
                 ViewModelFactoryUtil.savedStateFactory(this, getArguments(), RecipeViewModel::new)
         ).get(RecipeViewModel.class);
 
-        Product product = new Products().getProduct(viewModel.getProductId());
+        Product product = Products.getInstance().getProduct(viewModel.getProductId());
         binding.tvRecipeName.setText(product.getName());
         binding.tvRecipeTime.setText(product.getTimeComplete() + " phut");
         Glide.with(this).load(product.getImage()).into(binding.ivRecipeImage);

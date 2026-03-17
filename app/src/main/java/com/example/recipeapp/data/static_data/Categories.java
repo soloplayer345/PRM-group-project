@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Categories {
+    private static volatile Categories instance;
     private final List<Category> listCategory;
 
     public Categories() {
@@ -19,5 +20,16 @@ public class Categories {
 
     public List<Category> getCategoryList() {
         return listCategory;
+    }
+
+    public static Categories getInstance() {
+        if (instance == null) {
+            synchronized (Categories.class) {
+                if (instance == null) {
+                    instance = new Categories();
+                }
+            }
+        }
+        return instance;
     }
 }

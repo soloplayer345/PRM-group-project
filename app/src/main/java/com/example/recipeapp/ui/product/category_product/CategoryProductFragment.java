@@ -46,7 +46,8 @@ public class CategoryProductFragment extends Fragment {
         });
         binding.rvCategoryProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvCategoryProducts.setAdapter(adapter);
-        adapter.submitList(new Products().getProductsByCategoryId(viewModel.getCateId()));
+        binding.rvCategoryProducts.setHasFixedSize(true);
+        adapter.submitList(Products.getInstance().getProductsByCategoryId(viewModel.getCateId()));
         binding.tvEmptyState.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 

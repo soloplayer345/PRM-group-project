@@ -16,7 +16,7 @@ import java.util.List;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
 
     private final List<Schedule> items = new ArrayList<>();
-    private final Products products = new Products();
+    private final Products products = Products.getInstance();
 
     public void submitList(List<Schedule> schedules) {
         items.clear();
