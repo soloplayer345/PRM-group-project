@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.recipeapp.data.AppDataContainer;
 import com.example.recipeapp.data.static_data.Products;
+import com.example.recipeapp.util.ThemePreference;
 
 public class RecipeApplication extends Application {
 
@@ -12,6 +13,7 @@ public class RecipeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ThemePreference.applySavedTheme(this);
         container = new AppDataContainer(this);
         Products.init(this);
     }
