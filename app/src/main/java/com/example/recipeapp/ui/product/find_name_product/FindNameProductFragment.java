@@ -24,7 +24,8 @@ public class FindNameProductFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         binding = FragmentFindNameBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -34,11 +35,13 @@ public class FindNameProductFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.toolbarLayout.toolbar.setTitle(R.string.title_find_name);
         binding.toolbarLayout.toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
-        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
+        binding.toolbarLayout.toolbar
+                .setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
         FindNameViewModel viewModel = new ViewModelProvider(this,
-                ViewModelFactoryUtil.savedStateFactory(this, getArguments(), (application, handle) -> new FindNameViewModel(handle))
-        ).get(FindNameViewModel.class);
-        ProductAdapter adapter = new ProductAdapter(product -> {
+                ViewModelFactoryUtil.savedStateFactory(this, getArguments(),
+                        (application, handle) -> new FindNameViewModel(handle)))
+                .get(FindNameViewModel.class);
+        ProductAdapter adapter = new ProductAdapter(ProductAdapter.TYPE_NEW, product -> {
             Bundle args = new Bundle();
             args.putInt("itemId", product.getId());
             NavHostFragment.findNavController(this).navigate(R.id.recipeDetailFragment, args);

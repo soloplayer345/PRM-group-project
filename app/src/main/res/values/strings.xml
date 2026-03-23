@@ -58,4 +58,5 @@
     <string name="message_select_recipe_first">Hay chon cong thuc truoc</string>
     <string name="action_switch_to_dark">Bat che do toi</string>
     <string name="action_switch_to_light">Bat che do sang</string>
+    <string name="unit_minutes">phút</string>
 </resources>
