@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FindForScheduleViewModel extends ViewModel {
 
-    private final Products products = new Products();
+    private final Products products = Products.getInstance();
 
     public List<Product> getListProduct(String searchWord) {
         return products.getProductsByName(searchWord == null ? "" : searchWord);

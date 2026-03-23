@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.recipeapp.R;
+import com.example.recipeapp.data.dynamic_data.recipe_person.RecipePerson;
 import com.example.recipeapp.databinding.FragmentRecipePersonBinding;
 import com.example.recipeapp.ui.adapter.RecipePersonAdapter;
 
@@ -32,10 +33,33 @@ public class RecipePersonFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.toolbarLayout.toolbar.setTitle(R.string.title_recipe_person);
         ShowRecipeViewModel viewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(ShowRecipeViewModel.class);
-        RecipePersonAdapter adapter = new RecipePersonAdapter(recipePerson -> {
-            Bundle args = new Bundle();
-            args.putInt("itemId", recipePerson.id);
-            NavHostFragment.findNavController(this).navigate(R.id.recipeDetailPersonFragment, args);
+        RecipePersonAdapter adapter = new RecipePersonAdapter(new RecipePersonAdapter.OnRecipePersonClickListener() {
+            @Override
+            public void onClick(RecipePerson recipePerson) {
+                Bundle args = new Bundle();
+                args.putInt("itemId", recipePerson.id);
+                NavHostFragment.findNavController(RecipePersonFragment.this).navigate(R.id.recipeDetailPersonFragment, args);
+            }
+
+            @Override
+            public void onEditClick(RecipePerson recipePerson) {
+                Bundle args = new Bundle();
+                args.putInt("itemId", recipePerson.id);
+                NavHostFragment.findNavController(RecipePersonFragment.this).navigate(R.id.updateRecipeFragment, args);
+            }
+
+            @Override
+            public void onDeleteClick(RecipePerson recipePerson) {
+                new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                        .setTitle("Xóa công thức")
+                        .setMessage("Bạn có chắc chắn muốn xóa công thức này?")
+                        .setPositiveButton("Xóa", (dialog, which) -> {
+                            viewModel.deleteRecipe(recipePerson);
+                            android.widget.Toast.makeText(requireContext(), "Xóa thành công", android.widget.Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
+            }
         });
         binding.rvRecipePersons.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvRecipePersons.setAdapter(adapter);

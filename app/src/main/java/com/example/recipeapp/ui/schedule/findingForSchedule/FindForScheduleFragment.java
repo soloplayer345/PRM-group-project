@@ -22,7 +22,8 @@ public class FindForScheduleFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         binding = FragmentFindForScheduleBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -32,10 +33,12 @@ public class FindForScheduleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.toolbarLayout.toolbar.setTitle(R.string.title_find_schedule);
         binding.toolbarLayout.toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
-        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
+        binding.toolbarLayout.toolbar
+                .setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
         FindForScheduleViewModel viewModel = new ViewModelProvider(this).get(FindForScheduleViewModel.class);
-        ProductAdapter adapter = new ProductAdapter(product -> {
-            getParentFragmentManager().setFragmentResult("schedule_pick", createResultBundle(product.getId(), product.getName()));
+        ProductAdapter adapter = new ProductAdapter(ProductAdapter.TYPE_NEW, product -> {
+            getParentFragmentManager().setFragmentResult("schedule_pick",
+                    createResultBundle(product.getId(), product.getName()));
             NavHostFragment.findNavController(this).popBackStack();
         });
         binding.rvFindScheduleProducts.setLayoutManager(new LinearLayoutManager(requireContext()));

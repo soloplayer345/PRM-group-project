@@ -24,7 +24,8 @@ public class CategoryProductFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         binding = FragmentCategoryProductBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -34,19 +35,22 @@ public class CategoryProductFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.toolbarLayout.toolbar.setTitle(R.string.title_category_products);
         binding.toolbarLayout.toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
-        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
+        binding.toolbarLayout.toolbar
+                .setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
         CateProViewModel viewModel = new ViewModelProvider(this,
-                ViewModelFactoryUtil.savedStateFactory(this, getArguments(), (application, handle) -> new CateProViewModel(handle))
-        ).get(CateProViewModel.class);
+                ViewModelFactoryUtil.savedStateFactory(this, getArguments(),
+                        (application, handle) -> new CateProViewModel(handle)))
+                .get(CateProViewModel.class);
 
-        ProductAdapter adapter = new ProductAdapter(product -> {
+        ProductAdapter adapter = new ProductAdapter(ProductAdapter.TYPE_NEW, product -> {
             Bundle args = new Bundle();
             args.putInt("itemId", product.getId());
             NavHostFragment.findNavController(this).navigate(R.id.recipeDetailFragment, args);
         });
         binding.rvCategoryProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvCategoryProducts.setAdapter(adapter);
-        adapter.submitList(new Products().getProductsByCategoryId(viewModel.getCateId()));
+        binding.rvCategoryProducts.setHasFixedSize(true);
+        adapter.submitList(Products.getInstance().getProductsByCategoryId(viewModel.getCateId()));
         binding.tvEmptyState.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 

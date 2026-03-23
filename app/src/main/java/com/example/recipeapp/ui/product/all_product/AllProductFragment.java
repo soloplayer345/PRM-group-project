@@ -23,7 +23,8 @@ public class AllProductFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         binding = FragmentAllProductBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -33,15 +34,17 @@ public class AllProductFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.toolbarLayout.toolbar.setTitle(R.string.title_all_products);
         binding.toolbarLayout.toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
-        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
-        ProductAdapter adapter = new ProductAdapter(product -> {
+        binding.toolbarLayout.toolbar
+                .setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
+        ProductAdapter adapter = new ProductAdapter(ProductAdapter.TYPE_NEW, product -> {
             Bundle args = new Bundle();
             args.putInt("itemId", product.getId());
             NavHostFragment.findNavController(this).navigate(R.id.recipeDetailFragment, args);
         });
         binding.rvProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvProducts.setAdapter(adapter);
-        adapter.submitList(new Products().getProductList());
+        binding.rvProducts.setHasFixedSize(true);
+        adapter.submitList(Products.getInstance().getProductList());
         binding.tvEmptyState.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 

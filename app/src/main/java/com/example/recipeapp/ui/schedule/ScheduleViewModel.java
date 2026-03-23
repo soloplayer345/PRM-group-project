@@ -29,7 +29,7 @@ public class ScheduleViewModel extends BaseRecipeAndroidViewModel {
     private final MutableLiveData<Integer> numberPeople = new MutableLiveData<>(1);
     private final MutableLiveData<String> note = new MutableLiveData<>("");
     private final MutableLiveData<Integer> idSchedule = new MutableLiveData<>(0);
-    private final Products products = new Products();
+    private final Products products = Products.getInstance();
 
     public ScheduleViewModel(@NonNull Application application) {
         super(application);

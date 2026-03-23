@@ -47,6 +47,25 @@ public class AddRecipeViewModel extends BaseRecipeAndroidViewModel {
         ingredients.setValue(current);
     }
 
+    public void updateIngredient(int index, String nameIngre, String weightIngre) {
+        List<UINguyenLieu> current = new ArrayList<>(safeIngredients());
+        if (index < 0 || index >= current.size()) {
+            return;
+        }
+        UINguyenLieu existing = current.get(index);
+        current.set(index, new UINguyenLieu(existing.id, nameIngre, weightIngre, existing.idRecPer));
+        ingredients.setValue(current);
+    }
+
+    public void removeIngredient(int index) {
+        List<UINguyenLieu> current = new ArrayList<>(safeIngredients());
+        if (index < 0 || index >= current.size()) {
+            return;
+        }
+        current.remove(index);
+        ingredients.setValue(current);
+    }
+
     public void addRecipe() {
         UiStateRecipe recipeState = uiStateRecipe.getValue();
         if (recipeState == null) {

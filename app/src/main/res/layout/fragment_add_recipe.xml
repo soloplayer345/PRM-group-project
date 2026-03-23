@@ -50,12 +50,12 @@
             android:id="@+id/btnAddIngredient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_add" />
+            android:text="@string/action_add_ingredient" />
         <Button
             android:id="@+id/btnSaveRecipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/action_add" />
+            android:text="@string/action_save_recipe" />
     </LinearLayout>
 </ScrollView>

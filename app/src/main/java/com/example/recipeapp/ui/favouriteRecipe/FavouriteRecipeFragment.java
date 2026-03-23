@@ -27,7 +27,8 @@ public class FavouriteRecipeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         binding = FragmentFavouriteBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -37,9 +38,12 @@ public class FavouriteRecipeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.toolbarLayout.toolbar.setTitle(R.string.title_favourite);
         binding.toolbarLayout.toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
-        binding.toolbarLayout.toolbar.setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
-        FavouriteRecipeViewModel viewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(FavouriteRecipeViewModel.class);
-        ProductAdapter adapter = new ProductAdapter(product -> {
+        binding.toolbarLayout.toolbar
+                .setNavigationOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
+        FavouriteRecipeViewModel viewModel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()))
+                .get(FavouriteRecipeViewModel.class);
+        ProductAdapter adapter = new ProductAdapter(ProductAdapter.TYPE_NEW, product -> {
             Bundle args = new Bundle();
             args.putInt("itemId", product.getId());
             NavHostFragment.findNavController(this).navigate(R.id.recipeDetailFragment, args);
@@ -50,7 +54,10 @@ public class FavouriteRecipeFragment extends Fragment {
             List<Product> products = new ArrayList<>();
             if (favourites != null) {
                 for (Favourite favourite : favourites) {
-                    products.add(viewModel.getProduct(favourite.idProduct));
+                    Product product = viewModel.getProduct(favourite.idProduct);
+                    if (product != null) {
+                        products.add(product);
+                    }
                 }
             }
             adapter.submitList(products);

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
+import com.example.recipeapp.R;
 import com.example.recipeapp.data.dynamic_data.favourite.Favourite;
 import com.example.recipeapp.data.dynamic_data.shopping.Shopping;
 import com.example.recipeapp.ui.BaseRecipeAndroidViewModel;
@@ -17,6 +18,7 @@ public class RecipeViewModel extends BaseRecipeAndroidViewModel {
 
     private final int productId;
     private final MutableLiveData<Integer> checkFavorite = new MutableLiveData<>(0);
+    private final MutableLiveData<Integer> favouriteActionMessageRes = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> checkAddShopping = new MutableLiveData<>(true);
 
     public RecipeViewModel(@NonNull Application application, SavedStateHandle savedStateHandle) {
@@ -39,14 +41,53 @@ public class RecipeViewModel extends BaseRecipeAndroidViewModel {
         return checkAddShopping;
     }
 
+    public LiveData<Integer> getFavouriteActionMessageRes() {
+        return favouriteActionMessageRes;
+    }
+
+    public void clearFavouriteActionMessage() {
+        favouriteActionMessageRes.setValue(0);
+    }
+
     public void addFavourite() {
-        container.getFavouriteRepository().insertFavourite(new Favourite(0, productId));
+        if (productId < 0) {
+            favouriteActionMessageRes.setValue(R.string.message_cannot_add_favourite);
+            return;
+        }
+
+        FutureHelper.observe(container.getFavouriteRepository().checkFavourite(productId), count -> {
+            int currentCount = count == null ? 0 : count;
+            if (currentCount > 0) {
+                checkFavorite.setValue(currentCount);
+                favouriteActionMessageRes.setValue(R.string.message_already_in_favourites);
+                return;
+            }
+
+            FutureHelper.observe(container.getFavouriteRepository().insertFavourite(new Favourite(0, productId)), insertedId -> {
+                if (insertedId != null && insertedId > 0) {
+                    favouriteActionMessageRes.setValue(R.string.message_added_to_favourites);
+                    updateCheckFavourite();
+                    return;
+                }
+                favouriteActionMessageRes.setValue(R.string.message_cannot_add_favourite);
+            });
+        });
+    }
+
+    public void toggleFavourite() {
+        Integer current = checkFavorite.getValue();
+        if (current != null && current > 0) {
+            deleteFavourite();
+        } else {
+            addFavourite();
+        }
     }
 
     public void deleteFavourite() {
         FutureHelper.observe(container.getFavouriteRepository().getIdFavourite(productId), idFavourite -> {
             if (idFavourite != null) {
                 container.getFavouriteRepository().deleteFavourite(new Favourite(idFavourite, productId));
+                favouriteActionMessageRes.setValue(R.string.message_removed_from_favourites);
                 updateCheckFavourite();
             }
         });

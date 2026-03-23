@@ -22,7 +22,7 @@ public class ShoppingListViewModel extends BaseRecipeAndroidViewModel {
     private final LiveData<List<Shopping>> shoppingList;
     private final MutableLiveData<List<Boolean>> completeList = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<Boolean> checkStatePage = new MutableLiveData<>(true);
-    private final Products products = new Products();
+    private final Products products = Products.getInstance();
 
     public ShoppingListViewModel(@NonNull Application application) {
         super(application);

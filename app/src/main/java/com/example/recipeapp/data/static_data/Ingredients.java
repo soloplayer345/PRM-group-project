@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ingredients {
+    private static volatile Ingredients instance;
     private final List<StaticIngredient> ingredientList;
 
     public Ingredients() {
@@ -83,6 +84,17 @@ public class Ingredients {
 
     public List<StaticIngredient> getIngredientList() {
         return ingredientList;
+    }
+
+    public static Ingredients getInstance() {
+        if (instance == null) {
+            synchronized (Ingredients.class) {
+                if (instance == null) {
+                    instance = new Ingredients();
+                }
+            }
+        }
+        return instance;
     }
 
     // Helper: get a copy of ingredient at index with a new quantity

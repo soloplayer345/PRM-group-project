@@ -25,7 +25,8 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -35,26 +36,40 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.toolbarLayout.toolbar.setTitle(R.string.title_home);
 
-        Products products = new Products();
+        Products products = Products.getInstance();
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(category -> {
             Bundle args = new Bundle();
             args.putInt("cateId", category.getId());
             NavHostFragment.findNavController(this).navigate(R.id.categoryProductFragment, args);
         });
-        binding.rvCategories.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvCategories
+                .setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvCategories.setAdapter(categoryAdapter);
-        categoryAdapter.submitList(new Categories().getCategoryList());
+        binding.rvCategories.setHasFixedSize(true);
+        categoryAdapter.submitList(Categories.getInstance().getCategoryList());
 
-        ProductAdapter randomAdapter = new ProductAdapter(product -> openDetail(product.getId()));
-        binding.rvRandomProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
+        // Horizontal Carousel for Random Products
+        ProductAdapter randomAdapter = new ProductAdapter(ProductAdapter.TYPE_RANDOM, product -> openDetail(product.getId()));
+        binding.rvRandomProducts.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvRandomProducts.setAdapter(randomAdapter);
-        randomAdapter.submitList(products.getRandomProducts());
+        binding.rvRandomProducts.setHasFixedSize(true);
+        randomAdapter.submitList(products.getRandomProducts(5)); // Increased to 5
 
-        ProductAdapter newAdapter = new ProductAdapter(product -> openDetail(product.getId()));
+        // Vertical List for New Products
+        ProductAdapter newAdapter = new ProductAdapter(ProductAdapter.TYPE_NEW, product -> openDetail(product.getId()));
         binding.rvNewProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvNewProducts.setAdapter(newAdapter);
+        binding.rvNewProducts.setHasFixedSize(true);
         newAdapter.submitList(products.getLastFiveProducts());
+
+        // Handle See All clicks
+        binding.tvSeeAllCategories.setOnClickListener(v -> 
+            NavHostFragment.findNavController(this).navigate(R.id.allProductFragment));
+        binding.tvSeeAllRandom.setOnClickListener(v -> 
+            NavHostFragment.findNavController(this).navigate(R.id.allProductFragment));
+        binding.tvSeeAllNew.setOnClickListener(v -> 
+            NavHostFragment.findNavController(this).navigate(R.id.allProductFragment));
 
         binding.etSearch.setOnEditorActionListener((v, actionId, event) -> {
             Bundle args = new Bundle();

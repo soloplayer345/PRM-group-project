@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipeapp.R;
 import com.example.recipeapp.data.dynamic_data.recipe_person.RecipePerson;
 import com.example.recipeapp.databinding.ItemRecipePersonBinding;
 
@@ -16,6 +17,8 @@ public class RecipePersonAdapter extends RecyclerView.Adapter<RecipePersonAdapte
 
     public interface OnRecipePersonClickListener {
         void onClick(RecipePerson recipePerson);
+        void onEditClick(RecipePerson recipePerson);
+        void onDeleteClick(RecipePerson recipePerson);
     }
 
     private final List<RecipePerson> items = new ArrayList<>();
@@ -59,8 +62,11 @@ public class RecipePersonAdapter extends RecyclerView.Adapter<RecipePersonAdapte
 
         void bind(RecipePerson recipePerson) {
             binding.tvRecipeName.setText(recipePerson.nameRecipe);
-            binding.tvRecipeTime.setText(recipePerson.time);
-            binding.getRoot().setOnClickListener(v -> listener.onClick(recipePerson));
+            String timeText = recipePerson.time + " " + binding.getRoot().getContext().getString(R.string.unit_minutes);
+            binding.tvRecipeTime.setText(timeText);
+            binding.layoutInfo.setOnClickListener(v -> listener.onClick(recipePerson));
+            binding.btnEdit.setOnClickListener(v -> listener.onEditClick(recipePerson));
+            binding.btnDelete.setOnClickListener(v -> listener.onDeleteClick(recipePerson));
         }
     }
 }
