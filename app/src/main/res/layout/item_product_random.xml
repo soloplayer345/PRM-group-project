@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="30 phut"
+                android:text="@string/sample_duration_30_minutes"
                 android:textColor="@color/color_text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>

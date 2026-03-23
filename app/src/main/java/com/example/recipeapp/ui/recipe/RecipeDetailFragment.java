@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,11 @@ public class RecipeDetailFragment extends Fragment {
         ).get(RecipeViewModel.class);
 
         Product product = Products.getInstance().getProduct(viewModel.getProductId());
+        if (product == null) {
+            Toast.makeText(requireContext(), R.string.message_product_not_found, Toast.LENGTH_SHORT).show();
+            NavHostFragment.findNavController(this).navigateUp();
+            return;
+        }
         binding.tvRecipeName.setText(product.getName());
         binding.tvRecipeTime.setText(product.getTimeComplete() + " phut");
         Glide.with(this).load(product.getImage()).into(binding.ivRecipeImage);
@@ -59,7 +65,18 @@ public class RecipeDetailFragment extends Fragment {
             binding.layoutProcedureContainer.addView(textView);
         }
 
-        binding.btnFavourite.setOnClickListener(v -> viewModel.addFavourite());
+        viewModel.getCheckFavorite().observe(getViewLifecycleOwner(), count -> {
+            boolean isFavourite = count != null && count > 0;
+            binding.btnFavourite.setText(isFavourite ? R.string.action_remove_from_favourite : R.string.action_add_to_favourite);
+        });
+        viewModel.getFavouriteActionMessageRes().observe(getViewLifecycleOwner(), messageRes -> {
+            if (messageRes != null && messageRes > 0) {
+                Toast.makeText(requireContext(), messageRes, Toast.LENGTH_SHORT).show();
+                viewModel.clearFavouriteActionMessage();
+            }
+        });
+
+        binding.btnFavourite.setOnClickListener(v -> viewModel.toggleFavourite());
         binding.btnAddShopping.setOnClickListener(v -> viewModel.addShopping());
     }
 

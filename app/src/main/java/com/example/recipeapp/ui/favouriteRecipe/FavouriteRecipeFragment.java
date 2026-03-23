@@ -54,7 +54,10 @@ public class FavouriteRecipeFragment extends Fragment {
             List<Product> products = new ArrayList<>();
             if (favourites != null) {
                 for (Favourite favourite : favourites) {
-                    products.add(viewModel.getProduct(favourite.idProduct));
+                    Product product = viewModel.getProduct(favourite.idProduct);
+                    if (product != null) {
+                        products.add(product);
+                    }
                 }
             }
             adapter.submitList(products);

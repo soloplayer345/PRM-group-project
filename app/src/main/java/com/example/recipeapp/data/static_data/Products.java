@@ -135,11 +135,17 @@ public class Products {
     }
 
     public Product getProduct(int idProduct) {
-        return productList.get(idProduct);
+        for (Product product : productList) {
+            if (product.getId() == idProduct) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public String getNameProduct(int idProduct) {
-        return productList.get(idProduct).getName();
+        Product product = getProduct(idProduct);
+        return product == null ? "" : product.getName();
     }
 
     public List<Product> getProductsByName(String text) {
@@ -154,7 +160,8 @@ public class Products {
     }
 
     public List<StaticIngredient> getIngredient(int idProduct) {
-        return productList.get(idProduct).getIngredient();
+        Product product = getProduct(idProduct);
+        return product == null ? new ArrayList<>() : product.getIngredient();
     }
 
     public List<Product> getProductsByCategoryId(int categoryId) {

@@ -49,7 +49,7 @@
                     android:id="@+id/tvProductTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30 phut"
+                    android:text="@string/sample_duration_30_minutes"
                     android:textColor="@color/color_text_secondary"
                     android:textSize="14sp" />
 
@@ -66,7 +66,7 @@
                     android:backgroundTint="@color/color_primary"
                     android:paddingTop="0dp"
                     android:paddingBottom="0dp"
-                    android:text="Xem ngay"
+                    android:text="@string/action_view_now"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="12sp"
